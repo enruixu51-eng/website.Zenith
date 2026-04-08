@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zenith</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-cool">
+
+<div class="container">
+    <nav class="tabs">
+        <div class="tab active" onclick="switchTab('alarm-view', this)">Alarm</div>
+        <div class="tab" onclick="switchTab('tomato-view', this)">Pomotoro</div>
+        <div class="tab" onclick="switchTab('world-view', this)">World</div>
+        <div class="tab" onclick="switchTab('weather-view', this)">Weather</div>
+    </nav>
+
+    <div id="alarm-view" class="view active">
+        <div class="display-time" id="main-clock">00:00:00</div>
+        <div class="picker-group">
+            <select id="alarm-h" onchange="updateAlarmLabels()"></select>
+            <span class="colon">:</span>
+            <select id="alarm-m"></select>
+            <span class="colon">:</span>
+            <select id="alarm-s"></select>
+        </div>
+        <div style="margin-bottom: 1.5rem; padding: 0 5px;">
+            <label style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Select Alert Sound</label>
+            <select id="alarm-ringtone" class="full-select" style="margin-bottom: 0;">
+                <option value="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">01. Digital Beep</option>
+                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock_p_t.ogg">02. Classic Clock</option>
+                <option value="https://actions.google.com/sounds/v1/ambience/morning_birds.ogg">03. Morning Birds</option>
+                <option value="https://actions.google.com/sounds/v1/water/crashing_waves.ogg">04. Ocean Waves</option>
+                <option value="https://actions.google.com/sounds/v1/foley/wind_chime_single.ogg">05. Zen Chime</option>
+                <option value="https://actions.google.com/sounds/v1/alarms/mechanical_clock_ringing_long.ogg">06. Vintage Bell</option>
+                <option value="https://actions.google.com/sounds/v1/science_fiction/robot_code_signal.ogg">07. Cyber Signal</option>
+                <option value="https://actions.google.com/sounds/v1/ambience/rain_on_roof.ogg">08. Soft Rain</option>
+                <option value="https://actions.google.com/sounds/v1/foley/silverware_clink.ogg">09. Minimal Ding</option>
+                <option value="https://actions.google.com/sounds/v1/alarms/oscillating_beeps.ogg">10. Emergency Pulse</option>
+            </select>
+        </div>
+        <button id="set-alarm-btn" class="btn-primary" onclick="setAlarm()">Set Alarm</button>
+        <button id="stop-alarm-btn" class="btn-primary stop-style" style="display: none; background: #ef4444;" onclick="stopRinging('alarm')">STOP & WITNESS</button>
+        <p id="alarm-advice"></p>
+        <p id="alarm-status"></p>
+    </div>
+
+    <div id="tomato-view" class="view">
+        <div class="display-time" id="tomato-display">00:00:00</div>
+        <div class="picker-group">
+            <select id="tomato-h"></select>
+            <span class="colon">:</span>
+            <select id="tomato-m"></select>
+            <span class="colon">:</span>
+            <select id="tomato-s"></select>
+        </div>
+        <div style="margin-bottom: 1.5rem; padding: 0 5px;">
+            <label style="font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;">Select Alert Sound</label>
+            <select id="tomato-ringtone" class="full-select" style="margin-bottom: 0;">
+                <option value="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">01. Digital Beep</option>
+                <option value="https://actions.google.com/sounds/v1/alarms/alarm_clock_p_t.ogg">02. Classic Clock</option>
+                <option value="https://actions.google.com/sounds/v1/ambience/morning_birds.ogg">03. Morning Birds</option>
+                <option value="https://actions.google.com/sounds/v1/water/crashing_waves.ogg">04. Ocean Waves</option>
+                <option value="https://actions.google.com/sounds/v1/foley/wind_chime_single.ogg">05. Zen Chime</option>
+                <option value="https://actions.google.com/sounds/v1/alarms/mechanical_clock_ringing_long.ogg">06. Vintage Bell</option>
+                <option value="https://actions.google.com/sounds/v1/science_fiction/robot_code_signal.ogg">07. Cyber Signal</option>
+                <option value="https://actions.google.com/sounds/v1/ambience/rain_on_roof.ogg">08. Soft Rain</option>
+                <option value="https://actions.google.com/sounds/v1/foley/silverware_clink.ogg">09. Minimal Ding</option>
+                <option value="https://actions.google.com/sounds/v1/alarms/oscillating_beeps.ogg">10. Emergency Pulse</option>
+            </select>
+        </div>
+        <button id="tomato-btn" class="btn-primary" onclick="toggleTomato()">Start Session</button>
+        <button id="tomato-reset-btn" class="btn-secondary" onclick="resetTomato()">Reset</button>
+        <button id="stop-tomato-btn" class="btn-primary stop-style" style="display: none; background: #ef4444;" onclick="stopRinging('tomato')">STOP & REST</button>
+    </div>
+
+    <div id="world-view" class="view">
+        <div class="display-time" id="world-time">00:00:00</div>
+        <select id="tz-select" class="full-select">
+            <option value="local" id="local-tz-name">Local Time</option>
+            <option value="UTC">UTC</option>
+            <option value="Asia/Taipei">Taipei / Kaohsiung</option>
+            <option value="Asia/Tokyo">Tokyo</option>
+            <option value="Asia/Seoul">Seoul</option>
+            <option value="Asia/Singapore">Singapore</option>
+            <option value="Europe/London">London</option>
+            <option value="Europe/Paris">Paris</option>
+            <option value="America/New_York">New York</option>
+            <option value="America/Los_Angeles">Los Angeles</option>
+            <option value="Australia/Sydney">Sydney</option>
+        </select>
+    </div>
+
+    <div id="weather-view" class="view">
+        <div class="sky-stage">
+            <div id="weather-background">
+                <div class="sun-wrapper sun-rise-active" id="rising-sun">
+                    <div class="sun">
+                        <span id="temp">--°</span>
+                        <small id="condition">Loading</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <select id="city-select" class="full-select" onchange="getWeather()">
+            <option value="local">📍 Local (Auto)</option>
+            <optgroup label="Asia">
+                <option value="Kaohsiung">Kaohsiung</option>
+                <option value="Taipei">Taipei</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="Seoul">Seoul</option>
+                <option value="Hong Kong">Hong Kong</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Bangkok">Bangkok</option>
+                <option value="Dubai">Dubai</option>
+            </optgroup>
+            <optgroup label="Europe">
+                <option value="London">London</option>
+                <option value="Paris">Paris</option>
+                <option value="Berlin">Berlin</option>
+                <option value="Rome">Rome</option>
+                <option value="Madrid">Madrid</option>
+            </optgroup>
+            <optgroup label="Americas">
+                <option value="New York">New York</option>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="Chicago">Chicago</option>
+                <option value="Toronto">Toronto</option>
+                <option value="Mexico City">Mexico City</option>
+            </optgroup>
+            <optgroup label="Oceania & Africa">
+                <option value="Sydney">Sydney</option>
+                <option value="Auckland">Auckland</option>
+                <option value="Cairo">Cairo</option>
+                <option value="Johannesburg">Johannesburg</option>
+            </optgroup>
+        </select>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
